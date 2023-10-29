@@ -134,9 +134,9 @@ function saveTripDetailsToFirebase() {
     data.PartyName = getValueById(txtPartyName);
     data.TripDate = getValueById(txtTripDate);
     data.Particular = getValueById(txtParticular);
-    data.TripAmount = getValueById(txtTripAmount);
-    data.ExpenseOther = getValueById(txtTripExpense);
-    data.ExpenseTotal = getValueById(txtTotalExpenseAmount);
+    data.TripAmount = parseFloat(getValueById(txtTripAmount)==""?0:getValueById(txtTripAmount));
+    data.ExpenseOther = parseFloat(getValueById(txtTripExpense)==""?0:getValueById(txtTripExpense));
+    data.ExpenseTotal = parseFloat(getValueById(txtTotalExpenseAmount)==""?0:getValueById(txtTotalExpenseAmount));
     data.ExpenseFinal = (parseFloat(data.ExpenseOther) + parseFloat(data.ExpenseTotal));
     data.CreatedOn = getCurrentDateTime();
     data.key = TripUniqueIDkey;
