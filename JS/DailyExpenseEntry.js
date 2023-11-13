@@ -11,7 +11,9 @@ $(document).ready(function () {
     if (sessionStorage.length > 0) {
         TripId = sessionStorage.getItem('key');
         if (TripId != undefined && TripId != '') {
-            firebase.initializeApp(firebaseConfig);
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
             db = firebase.database();
             db.ref('Trip/' + TripId + '/').on('value', function (snapshot) {
                 var childData = snapshot.val();
@@ -65,9 +67,9 @@ function AddExpenseInGrid() {
         temp.ExpenseTitle = ExpenseTitle.toString().toUpperCase();
         temp.ExpenseAmount = ExpenseAmount;
         ExpenseList.push(temp);
-    }else{
+    } else {
         ExpenseList[hdnExpenseId].ExpenseTitle = ExpenseTitle.toString().toUpperCase();
-        ExpenseList[hdnExpenseId].ExpenseAmount = ExpenseAmount;        
+        ExpenseList[hdnExpenseId].ExpenseAmount = ExpenseAmount;
     }
     DisplayExpenseGrid();
     $('#txtExpenseTitle').val('')
@@ -134,9 +136,9 @@ function saveTripDetailsToFirebase() {
     data.PartyName = getValueById(txtPartyName);
     data.TripDate = getValueById(txtTripDate);
     data.Particular = getValueById(txtParticular);
-    data.TripAmount = parseFloat(getValueById(txtTripAmount)==""?0:getValueById(txtTripAmount));
-    data.ExpenseOther = parseFloat(getValueById(txtTripExpense)==""?0:getValueById(txtTripExpense));
-    data.ExpenseTotal = parseFloat(getValueById(txtTotalExpenseAmount)==""?0:getValueById(txtTotalExpenseAmount));
+    data.TripAmount = parseFloat(getValueById(txtTripAmount) == "" ? 0 : getValueById(txtTripAmount));
+    data.ExpenseOther = parseFloat(getValueById(txtTripExpense) == "" ? 0 : getValueById(txtTripExpense));
+    data.ExpenseTotal = parseFloat(getValueById(txtTotalExpenseAmount) == "" ? 0 : getValueById(txtTotalExpenseAmount));
     data.ExpenseFinal = (parseFloat(data.ExpenseOther) + parseFloat(data.ExpenseTotal));
     data.CreatedOn = getCurrentDateTime();
     data.key = TripUniqueIDkey;
@@ -182,25 +184,5 @@ function checkFormDataIsValidate(data) {
         return;
     }
     return true;
-}
-
-
-
-function getValueById(objectid) {
-    return objectid.value;
-}
-function setValueById(objectid, dataValue) {
-    $("#" + objectid).val(dataValue);
-}
-
-function getCurrentDateTime() {
-    var date = new Date();
-    var currentDateTime = ("00" + (date.getMonth() + 1)).slice(-2)
-        + "/" + ("00" + date.getDate()).slice(-2)
-        + "/" + date.getFullYear() + " "
-        + ("00" + date.getHours()).slice(-2) + ":"
-        + ("00" + date.getMinutes()).slice(-2)
-        + ":" + ("00" + date.getSeconds()).slice(-2);
-    return currentDateTime;
 }
 

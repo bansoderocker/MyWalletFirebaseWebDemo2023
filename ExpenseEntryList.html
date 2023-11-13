@@ -28,6 +28,8 @@
 
     <script src="../MyWalletFirebaseWebDemo2023/JS/ExpenseEntryList.js"></script>
     <script src="../MyWalletFirebaseWebDemo2023/JS/myConnection.js"></script>
+    <script src="../MyWalletFirebaseWebDemo2023/JS/common.js"></script>
+    <script src="../MyWalletFirebaseWebDemo2023/JS/DailyExpenseEntry.js"></script>
 
     <!-- 
       initialize the SDK after all desired features are loaded, set useEmulator to false
@@ -44,6 +46,15 @@
 </head>
 
 <body>
+    <div id="headerMenu" class="topnav">
+        <a href="../MyWalletFirebaseWebDemo2023/ExpenseEntryList.html"  class="active">Expense</a>
+        <a href="../MyWalletFirebaseWebDemo2023/PartyList.html">Party</a>
+        <a href="../MyWalletFirebaseWebDemo2023/TruckList.html">Truck</a>
+        <a href="../MyWalletFirebaseWebDemo2023/About.html">About</a>
+        <a href="../MyWalletFirebaseWebDemo2023/Contact.html">Contact</a>
+    </div>
+
+
 
     <div class="form-group">
         <center>
@@ -53,36 +64,171 @@
                     <h1>Expense Entry List</h1>
                 </div>
                 <div class="col-md-3">
-                    <div class="box">
-                        <a class="button" href="#popup1">Menu</a>
-                    </div>
+                    
 
-                    <div id="popup1" class="overlay">
-                        <div class="popup">
-                            <h2>Select Menu</h2>
+                    <div id="popup1" class="overlay" >
+                        <div class="popup" >
+                            <h2>Add Expense</h2>
                             <a class="close" href="#">&times;</a>
-                            <div class="content">
-                                <a href="DailyExpenseEntry.html">Add Trip</a>
+                            <div class="content" style="height: 80vh; overflow-y: auto;">
+
+                                <div class="container py-5 h-100">
+                                    <div class="row table table-striped thead-light">
+                                        <div class="col-md-3">
+                                            <label>Truck Number</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Party Name </label>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-3">
+                                            <label>Trip Date </label>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <input type="text" class="from-control" name="txtTruckNumber"
+                                                id="txtTruckNumber" placeholder="Enter Truck Name"
+                                                style="text-transform: uppercase;" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" name="txtPartyName" id="txtPartyName"
+                                                placeholder="Enter Party Name" />
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-3">
+                                            <input type="date" name="txtTripDate" id="txtTripDate"
+                                                placeholder="Enter Trip Date" />
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    <div class="row table table-striped thead-light">
+
+                                        <div class="col-md-6">
+                                            <label>Particular </label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Trip Amount </label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Trip Expense </label>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input type="text" name="txtParticular" id="txtParticular"
+                                                placeholder="Enter Particular" style="width: 100%;" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="number" name="txtTripAmount" id="txtTripAmount"
+                                                placeholder="Enter Trip Amount" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="number" name="txtTripExpense" id="txtTripExpense"
+                                                placeholder="Enter Trip Expense" />
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>Expense</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Expense Amount</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                        </div>
+                                        <div class="col-md-3">
+                                            Total Expense
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <input type="text" name="txtExpenseTitle" id="txtExpenseTitle"
+                                                placeholder="Select Expense" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="number" name="txtExpenseAmount" id="txtExpenseAmount"
+                                                placeholder="Select Amount" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="button" class="btn btn-secondary" name="btnAddEditExpense"
+                                                value="Add Expense" id="btnAddEditExpense"
+                                                onclick="javascript : AddEditTrip()" style="width: 150px;" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="number" name="txtTotalExpenseAmount" id="txtTotalExpenseAmount"
+                                                value="0" readonly />
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div id="gridExpanse" class="row">
+
+                                    </div>
+                                    <hr />
+                                    <table id="tblExpense" class="table table-striped">
+
+                                    </table>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <input type="button" value="Search" name="Search" style="display: none;" />
+                                            <input type="button" class="btn btn-primary" name="btnAddEditTrip"
+                                                value="Add Trip" id="btnAddEditTrip"
+                                                onclick="javascript : saveTripDetailsToFirebase()"
+                                                style="margin: 20px;width: 150px;" />
+                                        </div>
+                                        <div class="col-md-3">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="col-md-3">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label id="totalCount" style="width: 100%; text-align: start;"></label>
+                                            <table id="ex-table" class="table">
+                                            </table>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3"></div> 
-                    <div class="col-md-3">
-                    Total Trip Amount <br/>    <input type="number" name="txtTotalAmount" id="txtTotalAmount" value="0" readonly />
-                    </div> 
-                    <div class="col-md-3">
-                     Total Expense <br/>  <input type="number" name="txtTotalExpense" id="txtTotalExpense" value="0" readonly />
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    Total Trip Amount <br /> <input type="number" name="txtTotalAmount" id="txtTotalAmount" value="0"
+                        readonly />
                 </div>
-                <div class="container py-5 h-100">
-                    <div id="triptable" class="row table table-striped thead-light">
-
-                    </div>
+                <div class="col-md-3">
+                    Total Expense <br /> <input type="number" name="txtTotalExpense" id="txtTotalExpense" value="0"
+                        readonly />
                 </div>
 
-               
+            </div>
+            <div class="container py-5 h-100">
+                <div class="box" style="float: right;">
+                    <input type="button" class="btn btn-primary" value="Add Expense" onclick="AddEditTrip()"/>
+                </div>
+                <div id="triptable" class="row table table-striped thead-light">
+
+                </div>
+            </div>
+
+
         </center>
     </div>
 </body>
